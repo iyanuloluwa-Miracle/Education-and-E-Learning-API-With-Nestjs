@@ -1,9 +1,16 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Course } from '../course/course.entity';
 
-@Entity('users')
+@Entity()
 export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @Column({ unique: true })
+  email: string;
+
+  @Column()
+  password: string;
 
   @Column()
   firstName: string;
@@ -11,9 +18,9 @@ export class User {
   @Column()
   lastName: string;
 
-  @Column({ unique: true })
-  email: string;
+  @Column({ default: 'student' })
+  role: 'student' | 'instructor' | 'admin';
 
-  @Column()
-  password: string;
+  @OneToMany(() => Course, (course) => course.instructor)
+  courses: Course[];
 }

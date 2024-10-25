@@ -1,36 +1,45 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './user.entity';
 import { Repository } from 'typeorm';
+import { User } from './user.entity';
 import { UpdateUserDto } from './dtos/update-user.dto';
-import * as bcrypt from 'bcrypt';
+import { RegisterDto } from 'src/auth/dtos/auth.dto';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectRepository(User) private userRepository: Repository<User>) {}
+  findByEmail(email: string) {
+    throw new Error('Method not implemented.');
+  }
+  create(registerDto: RegisterDto) {
+    throw new Error('Method not implemented.');
+  }
+  constructor(
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
+  ) {}
 
-  async create(createUserDto: any): Promise<User> {
-    const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
-    const user = this.userRepository.create({ ...createUserDto, password: hashedPassword });
-    return this.userRepository.save(user);
+  async getProfile(userId: string): Promise<User> {
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return user;
   }
 
-  async findByEmail(email: string): Promise<User> {
-    return this.userRepository.findOne({ where: { email } });
+  async updateUser(id: string, updateUserDto: UpdateUserDto): Promise<User> {
+    await this.userRepository.update(id, updateUserDto);
+    const updatedUser = await this.userRepository.findOne({ where: { id } });
+    if (!updatedUser) {
+      throw new NotFoundException('User not found');
+    }
+    return updatedUser;
   }
 
-  async findById(id: number): Promise<User> {
-    return this.userRepository.findOne(id);
-  }
-
-  async updatePassword(id: number, password: string): Promise<void> {
-    await this.userRepository.update(id, { password });
-  }
-
-  async updateUser(id: number, updateUserDto: UpdateUserDto): Promise<User> {
-    const user = await this.findById(id);
-    if (!user) throw new NotFoundException('User not found');
-    Object.assign(user, updateUserDto);
-    return this.userRepository.save(user);
+  async getUserById(id: string): Promise<User> {
+    const user = await this.userRepository.findOne({ where: { id } });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return user;
   }
 }
