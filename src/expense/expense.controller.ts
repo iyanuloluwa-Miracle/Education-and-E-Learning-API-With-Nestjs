@@ -15,7 +15,7 @@ import { UpdateExpenseDto } from './dto/update-expense.dto';
 import { FilterExpensesDto } from './dto/filter-expenses.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { GetUser } from '../auth/get-user.decorator';
-import { User } from '../users/entities/user.entity';
+import { User } from '../../user/entities/user.entity';
 
 @UseGuards(JwtAuthGuard)
 @Controller('expenses')
