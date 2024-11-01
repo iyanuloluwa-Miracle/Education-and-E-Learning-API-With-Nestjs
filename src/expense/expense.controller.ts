@@ -9,13 +9,13 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { ExpensesService } from './expenses.service';
+import { ExpensesService } from './expense.service';
 import { CreateExpenseDto } from './dto/create-expense.dto';
 import { UpdateExpenseDto } from './dto/update-expense.dto';
 import { FilterExpensesDto } from './dto/filter-expenses.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { GetUser } from '../auth/get-user.decorator';
-import { User } from '../../user/entities/user.entity';
+import { User } from '../user/entities/user.entity';
 
 @UseGuards(JwtAuthGuard)
 @Controller('expenses')

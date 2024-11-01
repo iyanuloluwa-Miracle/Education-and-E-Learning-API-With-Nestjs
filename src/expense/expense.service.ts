@@ -5,7 +5,7 @@ import { Expense } from './entities/expense.entity';
 import { CreateExpenseDto } from './dto/create-expense.dto';
 import { UpdateExpenseDto } from './dto/update-expense.dto';
 import { FilterExpensesDto } from './dto/filter-expenses.dto';
-import { User } from '../users/entities/user.entity';
+import { User } from '../user/entities/user.entity';
 
 @Injectable()
 export class ExpensesService {

@@ -1,15 +1,26 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { ExpenseModule } from './expense/expense.module';
 import { AuthModule } from './auth/auth.module';
-import { UserModule } from './user/user.module';
-
-
+import { UsersModule } from './user/user.module';
 
 @Module({
-  controllers: [AppController],
-  providers: [AppService],
-  imports: [ExpenseModule, AuthModule, UserModule], 
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    TypeOrmModule.forRoot({
+      type: 'postgres', // or other database type you are using
+      host: process.env.DB_HOST,
+      port: +process.env.DB_PORT,
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_DATABASE,
+      autoLoadEntities: true,
+      synchronize: true, // set to false in production
+    }),
+    ExpenseModule,
+    AuthModule,
+    UsersModule,
+  ],
 })
-export class AppModule {}
+export class AppModule {}
