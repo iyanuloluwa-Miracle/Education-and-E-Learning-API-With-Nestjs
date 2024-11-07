@@ -6,17 +6,22 @@ import { CreateExpenseDto } from './dto/create-expense.dto';
 import { UpdateExpenseDto } from './dto/update-expense.dto';
 import { FilterExpensesDto } from './dto/filter-expenses.dto';
 import { User } from '../user/entities/user.entity';
+import { UsersService } from 'src/user/users.service';
 
 @Injectable()
 export class ExpensesService {
   constructor(
     @InjectRepository(Expense)
     private expensesRepository: Repository<Expense>,
+    private readonly userService: UsersService
   ) {}
 
   async create(createExpenseDto: CreateExpenseDto, user: User): Promise<Expense> {
-    const expense = this.expensesRepository.create({ ...createExpenseDto, user });
-    return this.expensesRepository.save(expense);
+    const userEntity = await this.userService.find({
+      id: user.id, username: user.username,
+    });
+    const expense = this.expensesRepository.create({ ...createExpenseDto, user: userEntity  });
+    return await this.expensesRepository.save(expense);
   }
 
   async findAll(filterExpensesDto: FilterExpensesDto, user: User): Promise<Expense[]> {
