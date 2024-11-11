@@ -86,3 +86,269 @@ Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
 
 
 https://roadmap.sh/projects/expense-tracker-api
+
+# Expense Tracker API
+
+A RESTful API for tracking personal expenses built with NestJS and PostgreSQL.
+
+## Features
+
+- 👤 User authentication with JWT
+- 💰 CRUD operations for expenses
+- 📊 Filter expenses by date ranges
+- 🏷️ Categorize expenses
+- 📝 Detailed expense tracking
+- 🔒 Secure endpoints
+- 📚 Swagger documentation
+
+## Tech Stack
+
+- NestJS
+- PostgreSQL
+- TypeORM
+- JWT Authentication
+- Swagger/OpenAPI
+
+## Prerequisites
+
+- Node.js (v14 or higher)
+- PostgreSQL (v12 or higher)
+- npm or yarn
+
+## Installation
+
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd expense-tracker-api
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Set up environment variables:
+Create a `.env` file in the root directory with the following variables:
+```env
+PORT=3000
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+DB_DATABASE=expense_tracker
+JWT_SECRET=your_jwt_secret
+```
+
+4. Run the application:
+```bash
+# development
+npm run start:dev
+
+# production
+npm run build
+npm run start:prod
+```
+
+## API Documentation
+
+### Authentication Endpoints
+
+#### Sign Up
+- **POST** `/auth/signup`
+- Creates a new user account
+- Request Body:
+```json
+{
+  "email": "user@example.com",
+  "password": "password123",
+  "name": "John Doe"
+}
+```
+- Response:
+```json
+{
+  "token": "jwt_token",
+  "user": {
+    "id": "uuid",
+    "email": "user@example.com",
+    "name": "John Doe"
+  }
+}
+```
+
+#### Login
+- **POST** `/auth/login`
+- Authenticates a user
+- Request Body:
+```json
+{
+  "email": "user@example.com",
+  "password": "password123"
+}
+```
+- Response:
+```json
+{
+  "token": "jwt_token",
+  "user": {
+    "id": "uuid",
+    "email": "user@example.com",
+    "name": "John Doe"
+  }
+}
+```
+
+### Expense Endpoints
+
+All expense endpoints require an Authorization header:
+```
+Authorization: Bearer <jwt_token>
+```
+
+#### Create Expense
+- **POST** `/expenses`
+- Creates a new expense
+- Request Body:
+```json
+{
+  "description": "Grocery shopping",
+  "amount": 150.50,
+  "category": "GROCERIES"
+}
+```
+
+#### Get All Expenses
+- **GET** `/expenses`
+- Retrieves all expenses for the authenticated user
+- Query Parameters:
+  - `startDate`: ISO date string (optional)
+  - `endDate`: ISO date string (optional)
+- Example: `/expenses?startDate=2024-11-01&endDate=2024-11-30`
+
+#### Get Single Expense
+- **GET** `/expenses/:id`
+- Retrieves a specific expense by ID
+
+#### Update Expense
+- **PUT** `/expenses/:id`
+- Updates an existing expense
+- Request Body:
+```json
+{
+  "description": "Updated description",
+  "amount": 175.50,
+  "category": "GROCERIES"
+}
+```
+
+#### Delete Expense
+- **DELETE** `/expenses/:id`
+- Deletes an expense
+
+### Available Expense Categories
+
+```typescript
+enum ExpenseCategory {
+  GROCERIES = 'GROCERIES',
+  LEISURE = 'LEISURE',
+  ELECTRONICS = 'ELECTRONICS',
+  UTILITIES = 'UTILITIES',
+  CLOTHING = 'CLOTHING',
+  HEALTH = 'HEALTH',
+  OTHERS = 'OTHERS'
+}
+```
+
+## Error Responses
+
+### 401 Unauthorized
+```json
+{
+  "statusCode": 401,
+  "message": "Unauthorized"
+}
+```
+
+### 400 Bad Request
+```json
+{
+  "statusCode": 400,
+  "message": ["validation error messages"],
+  "error": "Bad Request"
+}
+```
+
+### 404 Not Found
+```json
+{
+  "statusCode": 404,
+  "message": "Expense not found"
+}
+```
+
+## API Documentation UI
+
+The API documentation is available through Swagger UI at:
+```
+http://localhost:3000/api
+```
+
+## Development
+
+### Running Tests
+```bash
+# unit tests
+npm run test
+
+# e2e tests
+npm run test:e2e
+
+# test coverage
+npm run test:cov
+```
+
+### Database Migrations
+```bash
+# generate migration
+npm run typeorm:generate-migration
+
+# run migrations
+npm run typeorm:run-migrations
+```
+
+## Example Requests
+
+### Create an Expense
+```bash
+curl -X POST http://localhost:3000/expenses \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "description": "Grocery shopping",
+    "amount": 150.50,
+    "category": "GROCERIES"
+  }'
+```
+
+### Get Filtered Expenses
+```bash
+curl -X GET "http://localhost:3000/expenses?startDate=2024-11-01&endDate=2024-11-30" \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details
+
+## Support
+
+For support, email iyanudina@gmail.com or create an issue in the repository.

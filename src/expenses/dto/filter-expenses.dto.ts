@@ -3,8 +3,6 @@ import { IsOptional, IsEnum, IsString, IsDate, IsNumber } from 'class-validator'
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { ExpenseCategory } from '../entities/expense.entity'
 
-
-
 export class FilterExpensesDto {
   @ApiPropertyOptional({ enum: ExpenseCategory })
   @IsOptional()
