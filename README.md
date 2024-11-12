@@ -85,7 +85,7 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
 
 
-https://roadmap.sh/projects/expense-tracker-api
+Coursey: https://roadmap.sh/projects/expense-tracker-api
 
 # Expense Tracker API
 
@@ -344,10 +344,6 @@ curl -X GET "http://localhost:3000/expenses?startDate=2024-11-01&endDate=2024-11
 3. Commit your changes (`git commit -m 'Add some amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details
 
 ## Support
 
